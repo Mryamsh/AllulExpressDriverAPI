@@ -1,0 +1,6 @@
+@AllulExpressDriverAPI_HostAddress = http://localhost:5015
+
+GET {{AllulExpressDriverAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
