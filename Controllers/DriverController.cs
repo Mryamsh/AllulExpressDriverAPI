@@ -23,7 +23,7 @@ public class DriverController : ControllerBase
         var driver = await _db.Drivers
             .Include(d => d.Cities)
             .Where(d => d.Id == id)
-            .Select(d => new Driver
+            .Select(d => new DriverDto
             {
                 Id = d.Id,
                 Name = d.Name,

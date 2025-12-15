@@ -34,16 +34,13 @@ namespace AllulExpressDriverApi.Models
     }
 
 
-    public class Driver
+    public class DriverDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Email { get; set; }
-        [Phone]
-        [Required]
         public string? Phonenum1 { get; set; }
         public string Phonenum2 { get; set; } = string.Empty;
-
         public double Paymentpayed { get; set; }
         public double Paymentremained { get; set; }
         public int Arrivedpost { get; set; }
@@ -55,10 +52,5 @@ namespace AllulExpressDriverApi.Models
         public string? IDimageback { get; set; }
         public DateTime Savedate { get; set; }
         public string Note { get; set; } = string.Empty;
-
-
-
-
-
     }
 }
