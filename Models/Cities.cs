@@ -11,7 +11,8 @@ namespace AllulExpressDriverApi.Models
         public double Driverfee { get; set; }
         public double benifit { get; set; }
         [JsonIgnore]
-        public List<Drivers> Drivers { get; set; } = new();
+        public List<Drivers>? Drivers { get; set; } = new();
+
 
 
     }

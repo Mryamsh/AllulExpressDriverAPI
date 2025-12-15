@@ -24,6 +24,12 @@ namespace AllulExpressDriverApi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Drivers>()
+                .HasMany(d => d.Cities)
+                .WithMany(c => c.Drivers) // make sure Cities class has `List<Drivers> Drivers`
+                .UsingEntity(j => j.ToTable("DriverCities")); // your actual table name
         }
 
     }

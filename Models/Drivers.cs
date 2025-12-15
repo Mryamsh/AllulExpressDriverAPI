@@ -20,6 +20,7 @@ namespace AllulExpressDriverApi.Models
         public int Remainedpost { get; set; }
         public string? Vehicledetail { get; set; }
         public List<Cities>? Cities { get; set; } = new();
+
         public bool IsActive { get; set; }
         public string? IDimagefront { get; set; }
         public string? IDimageback { get; set; }
