@@ -53,4 +53,6 @@ namespace AllulExpressDriverApi.Models
         public DateTime Savedate { get; set; }
         public string Note { get; set; } = string.Empty;
     }
+
+
 }

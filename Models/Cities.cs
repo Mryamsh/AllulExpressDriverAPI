@@ -19,7 +19,7 @@ namespace AllulExpressDriverApi.Models
     public class CityDto
     {
         public int Id { get; set; }
-        public string City { get; set; }
+        public string? City { get; set; }
     }
 
 }

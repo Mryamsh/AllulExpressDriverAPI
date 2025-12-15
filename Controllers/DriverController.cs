@@ -18,17 +18,47 @@ public class DriverController : ControllerBase
 
     }
 
-    [HttpGet("getdriver/{id}")]
-    public async Task<ActionResult<Drivers>> GetDriver(int id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetDriverById(int id)
     {
-        var driver = await _db.Drivers
-            .Include(d => d.Cities)
-            .FirstOrDefaultAsync(d => d.Id == id);
+        try
+        {
+            var driver = await _db.Drivers
+                .Include(d => d.Cities) // include cities if any
+                .Where(d => d.Id == id)
+                .Select(d => new DriverDto
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Email = d.Email,
+                    Phonenum1 = d.Phonenum1,
+                    Phonenum2 = d.Phonenum2,
+                    Paymentpayed = d.Paymentpayed,
+                    Paymentremained = d.Paymentremained,
+                    Arrivedpost = d.Arrivedpost,
+                    Remainedpost = d.Remainedpost,
+                    Vehicledetail = d.Vehicledetail,
+                    Cities = d.Cities != null
+                        ? d.Cities.Select(c => new CityDto { Id = c.Id, City = c.City }).ToList()
+                        : new List<CityDto>(),
+                    IsActive = d.IsActive,
+                    IDimagefront = d.IDimagefront,
+                    IDimageback = d.IDimageback,
+                    Savedate = d.Savedate,
+                    Note = d.Note ?? ""
+                })
+                .FirstOrDefaultAsync();
 
-        if (driver == null)
-            return NotFound(new { message = "Driver not found" });
+            if (driver == null)
+                return NotFound(new { message = "Driver not found" });
 
-        return Ok(driver);
+            return Ok(driver);
+        }
+        catch (Exception ex)
+        {
+            // Log exception here if you have logging
+            return StatusCode(500, new { message = "Internal server error", detail = ex.Message });
+        }
     }
 
 
