@@ -35,7 +35,8 @@ public class DriverController : ControllerBase
                 Arrivedpost = d.Arrivedpost,
                 Remainedpost = d.Remainedpost,
                 Vehicledetail = d.Vehicledetail,
-                Cities = d.Cities ?? new List<Cities>(),
+                Cities = d.Cities.Select(c => new CityDto { Id = c.Id, City = c.City }).ToList(),
+
                 IsActive = d.IsActive,
                 IDimagefront = d.IDimagefront,
                 IDimageback = d.IDimageback,
