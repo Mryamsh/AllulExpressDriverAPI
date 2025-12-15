@@ -21,6 +21,8 @@ namespace AllulExpressDriverApi.Models
     {
         public int Id { get; set; }
         public string? City { get; set; }
+        public double Driverfee { get; set; }
+
     }
 
 }

@@ -39,7 +39,7 @@ public class DriverController : ControllerBase
                 Remainedpost = d.Remainedpost,
                 Vehicledetail = d.Vehicledetail,
                 Cities = d.Cities
-                    .Select(c => new CityDto { Id = c.Id, City = c.City })
+                    .Select(c => new CityDto { Id = c.Id, City = c.City, Driverfee = c.Driverfee })
                     .ToList(),
                 IsActive = d.IsActive,
                 IDimagefront = d.IDimagefront,
