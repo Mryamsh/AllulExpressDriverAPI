@@ -20,10 +20,32 @@ public class DriverController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetDriverById(int id)
     {
-        var driver = await _db.Drivers.FindAsync(id);
+        var driver = await _db.Drivers
+            .Include(d => d.Cities)
+            .Where(d => d.Id == id)
+            .Select(d => new Driver
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Email = d.Email,
+                Phonenum1 = d.Phonenum1,
+                Phonenum2 = d.Phonenum2,
+                Paymentpayed = d.Paymentpayed,
+                Paymentremained = d.Paymentremained,
+                Arrivedpost = d.Arrivedpost,
+                Remainedpost = d.Remainedpost,
+                Vehicledetail = d.Vehicledetail,
+                Cities = d.Cities,
+                IsActive = d.IsActive,
+                IDimagefront = d.IDimagefront,
+                IDimageback = d.IDimageback,
+                Savedate = d.Savedate,
+                Note = d.Note
+            })
+            .FirstOrDefaultAsync();
 
         if (driver == null)
-            return NotFound(new { message = "Driver not found" });
+            return NotFound("Driver not found");
 
         return Ok(driver);
     }
