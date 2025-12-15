@@ -35,7 +35,7 @@ public class DriverController : ControllerBase
                 Arrivedpost = d.Arrivedpost,
                 Remainedpost = d.Remainedpost,
                 Vehicledetail = d.Vehicledetail,
-                Cities = d.Cities,
+                Cities = d.Cities ?? new List<Cities>(),
                 IsActive = d.IsActive,
                 IDimagefront = d.IDimagefront,
                 IDimageback = d.IDimageback,
