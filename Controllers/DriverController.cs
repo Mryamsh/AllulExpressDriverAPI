@@ -35,13 +35,14 @@ public class DriverController : ControllerBase
                 Arrivedpost = d.Arrivedpost,
                 Remainedpost = d.Remainedpost,
                 Vehicledetail = d.Vehicledetail,
-                Cities = d.Cities.Select(c => new CityDto { Id = c.Id, City = c.City }).ToList(),
-
+                Cities = d.Cities
+                    .Select(c => new CityDto { Id = c.Id, City = c.City })
+                    .ToList(),
                 IsActive = d.IsActive,
                 IDimagefront = d.IDimagefront,
                 IDimageback = d.IDimageback,
                 Savedate = d.Savedate,
-                Note = d.Note
+                Note = d.Note ?? ""
             })
             .FirstOrDefaultAsync();
 
@@ -50,6 +51,7 @@ public class DriverController : ControllerBase
 
         return Ok(driver);
     }
+
 
 
     [HttpPatch("Driver/{id}/changelanguage")]
