@@ -33,8 +33,8 @@ public class AuthController : Microsoft.AspNetCore.Mvc.ControllerBase
             user.OtpCode = otp;
             user.OtpExpiry = DateTime.UtcNow.AddMinutes(5);
             await _db.SaveChangesAsync();
-
-            await _whatsAppService.SendOtp(req.Phone, otp);
+            var to = $"whatsapp:+964{req.Phone.TrimStart('0')}";
+            await _whatsAppService.SendOtp(to, otp);
 
             return Ok(new { message = "OTP sent" });
         }
