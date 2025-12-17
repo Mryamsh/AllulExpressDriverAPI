@@ -17,6 +17,12 @@ public class WhatsAppService
 
     public async Task SendOtp(string phone, string otp)
     {
+        Console.WriteLine(_accountSid);
+
+        Console.WriteLine(_authToken);
+
+        Console.WriteLine(_from);
+
         if (string.IsNullOrEmpty(_accountSid) || string.IsNullOrEmpty(_authToken))
             throw new Exception("Twilio credentials missing");
 
