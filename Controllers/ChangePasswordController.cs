@@ -20,22 +20,29 @@ public class AuthController : Microsoft.AspNetCore.Mvc.ControllerBase
     [HttpPost("request-otp")]
     public async Task<IActionResult> RequestOtp([FromBody] RequestOtpRequest req)
     {
-        if (string.IsNullOrWhiteSpace(req.Phone))
-            return BadRequest(new { message = "Phone is required" });
+        try
+        {
+            _logger.LogInformation("OTP request: {Phone}", req.Phone);
 
-        var user = await _db.Drivers.FirstOrDefaultAsync(c => c.Phonenum1 == req.Phone);
-        if (user == null)
-            return NotFound(new { message = "Phone not registered" });
+            var user = await _db.Drivers.FirstOrDefaultAsync(c => c.Phonenum1 == req.Phone);
+            if (user == null)
+                return NotFound(new { message = "Phone not registered" });
 
-        var otp = OtpService.GenerateOtp();
-        user.OtpCode = otp;
-        user.OtpExpiry = DateTime.UtcNow.AddMinutes(5);
+            var otp = OtpService.GenerateOtp();
 
-        await _db.SaveChangesAsync();
+            user.OtpCode = otp;
+            user.OtpExpiry = DateTime.UtcNow.AddMinutes(5);
+            await _db.SaveChangesAsync();
 
-        _whatsAppService.SendOtp(req.Phone, otp);
+            _whatsAppService.SendOtp(req.Phone, otp);
 
-        return Ok(new { message = "OTP sent via WhatsApp" });
+            return Ok(new { message = "OTP sent" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "RequestOtp failed");
+            return StatusCode(500, new { message = ex.Message });
+        }
     }
 
 
