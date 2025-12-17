@@ -29,6 +29,8 @@ namespace AllulExpressDriverApi.Models
         public bool Enabled { get; set; }
 
         public string? Language { get; set; }
+        public string? OtpCode { get; set; }
+        public DateTime? OtpExpiry { get; set; }
 
 
 
