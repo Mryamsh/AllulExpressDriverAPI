@@ -1,26 +1,31 @@
-using Microsoft.Extensions.Options;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
 public class WhatsAppService
 {
-    private readonly TwilioSettings _twilio;
+    private readonly string _accountSid;
+    private readonly string _authToken;
+    private readonly string _from;
 
-    public WhatsAppService(IOptions<TwilioSettings> options)
+    public WhatsAppService(IConfiguration config)
     {
-        _twilio = options.Value;
+        _accountSid = config["Twilio:AccountSid"];
+        _authToken = config["Twilio:AuthToken"];
+        _from = config["Twilio:From"]; // e.g. whatsapp:+14155238886
     }
 
-    public void SendOtp(string phone, string otp)
+    public async Task SendOtp(string phone, string otp)
     {
-        var formatted = $"whatsapp:+964{phone.Substring(1)}";
-        TwilioClient.Init(_twilio.AccountSid, _twilio.AuthToken);
+        if (string.IsNullOrEmpty(_accountSid) || string.IsNullOrEmpty(_authToken))
+            throw new Exception("Twilio credentials missing");
 
-        MessageResource.Create(
-            from: new PhoneNumber("whatsapp:+14155238886"),
-            to: new PhoneNumber(formatted),
-            body: "Your OTP is " + otp
+        TwilioClient.Init(_accountSid, _authToken);
+
+        await MessageResource.CreateAsync(
+            from: new PhoneNumber(_from),
+            to: new PhoneNumber($"whatsapp:{phone}"),
+            body: $"Your OTP is {otp}"
         );
     }
 }
