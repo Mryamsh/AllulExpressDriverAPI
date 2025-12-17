@@ -77,11 +77,12 @@ builder.Services.AddCors(options =>
         });
 });
 
-
+builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
+builder.Services.AddSingleton<WhatsAppService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<WhatsAppService>();
+
 
 
 var app = builder.Build();
