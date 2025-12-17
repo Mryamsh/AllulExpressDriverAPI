@@ -9,3 +9,7 @@ public class VerifyOtpRequest
     public string Otp { get; set; }
 }
 
+public class RequestOtpRequest
+{
+    public string Phone { get; set; }
+}

@@ -18,26 +18,22 @@ public class AuthController : Microsoft.AspNetCore.Mvc.ControllerBase
         _logger = logger;
     }
     [HttpPost("request-otp")]
-    public async Task<IActionResult> RequestOtp([FromBody] string phone)
+    public async Task<IActionResult> RequestOtp([FromBody] RequestOtpRequest req)
     {
-        Console.WriteLine("phone " + phone);
+        if (string.IsNullOrWhiteSpace(req.Phone))
+            return BadRequest(new { message = "Phone is required" });
 
-
-        var user = await _db.Drivers.FirstOrDefaultAsync(c => c.Phonenum1 == phone);
+        var user = await _db.Drivers.FirstOrDefaultAsync(c => c.Phonenum1 == req.Phone);
         if (user == null)
             return NotFound(new { message = "Phone not registered" });
 
-        string otp = OtpService.GenerateOtp();
-        Console.WriteLine("otp " + otp);
-
-
-        //  return Ok(new { message = "OTP sent via WhatsApp" + otp });
+        var otp = OtpService.GenerateOtp();
         user.OtpCode = otp;
-        user.OtpExpiry = DateTime.UtcNow.AddMinutes(5);  // Valid 5 minutes
+        user.OtpExpiry = DateTime.UtcNow.AddMinutes(5);
+
         await _db.SaveChangesAsync();
 
-        // var wa = new WhatsAppService();
-        _whatsAppService.SendOtp(phone, otp);
+        _whatsAppService.SendOtp(req.Phone, otp);
 
         return Ok(new { message = "OTP sent via WhatsApp" });
     }
