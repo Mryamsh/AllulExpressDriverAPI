@@ -30,7 +30,7 @@ public class WhatsAppService
 
         await MessageResource.CreateAsync(
             from: new PhoneNumber(_from),
-            to: new PhoneNumber($"whatsapp:{phone}"),
+            to: new PhoneNumber(phone),
             body: $"Your OTP is {otp}"
         );
     }
