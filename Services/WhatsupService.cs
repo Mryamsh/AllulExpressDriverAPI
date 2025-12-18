@@ -12,7 +12,7 @@ public class WhatsAppService
     {
         _accountSid = config["TWILIO:ACCOUNTSID"];
         _authToken = config["Twilio:AuthToken"];
-        _from = config["TWILIO:WHATSAPPNUMBER"]; // e.g. whatsapp:+14155238886
+        _from = config["Twilio:From"]; // e.g. whatsapp:+14155238886
     }
 
     public async Task SendOtp(string phone, string otp)
