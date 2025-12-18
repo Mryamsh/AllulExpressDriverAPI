@@ -10,9 +10,9 @@ public class WhatsAppService
 
     public WhatsAppService(IConfiguration config)
     {
-        _accountSid = config["TWILIO__ACCOUNTSID"];
-        _authToken = config["TWILIO__AUTHTOKEN"];
-        _from = config["TWILIO__WHATSAPPNUMBER"]; // e.g. whatsapp:+14155238886
+        _accountSid = config["Twilio:AccountSid"];
+        _authToken = config["Twilio:AuthToken"];
+        _from = config["TWILIO:WHATSAPPNUMBER"]; // e.g. whatsapp:+14155238886
     }
 
     public async Task SendOtp(string phone, string otp)
