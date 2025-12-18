@@ -10,7 +10,7 @@ public class WhatsAppService
 
     public WhatsAppService(IConfiguration config)
     {
-        _accountSid = config["Twilio:AccountSid"];
+        _accountSid = config["TWILIO:ACCOUNTSID"];
         _authToken = config["Twilio:AuthToken"];
         _from = config["TWILIO:WHATSAPPNUMBER"]; // e.g. whatsapp:+14155238886
     }
@@ -19,9 +19,9 @@ public class WhatsAppService
     {
         Console.WriteLine("account SID" + _accountSid);
 
-        Console.WriteLine("account SID" + _authToken);
+        Console.WriteLine("token.  " + _authToken);
 
-        Console.WriteLine("account SID" + _from);
+        Console.WriteLine("number.  " + _from);
 
         if (string.IsNullOrEmpty(_accountSid) || string.IsNullOrEmpty(_authToken))
             throw new Exception("Twilio credentials missing");
