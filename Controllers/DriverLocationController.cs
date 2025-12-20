@@ -16,7 +16,7 @@ public class DriverLocationController : ControllerBase
     public async Task<IActionResult> UpdateLocation(
         [FromBody] DriverLocationDto dto)
     {
-        var driver = await _db.Drivers.FindAsync(dto.DriverId);
+        var driver = await _db.Drivers.FindAsync(dto.Id);
         if (driver == null)
             return NotFound();
 
