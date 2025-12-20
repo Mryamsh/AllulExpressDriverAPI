@@ -1,5 +1,6 @@
 using AllulExpressDriverApi.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/driver")]
@@ -11,6 +12,25 @@ public class DriverLocationController : ControllerBase
     {
         _db = db;
     }
+    [HttpGet("location/{id}")]
+    public async Task<IActionResult> GetDriverById(int id)
+    {
+        var driver = await _db.Drivers
+            .Where(d => d.Id == id)
+            .Select(d => new
+            {
+                d.Id,
+                d.Name,
+                d.Latitude,
+                d.Longitude
+            })
+            .FirstOrDefaultAsync();
+
+        if (driver == null) return NotFound();
+
+        return Ok(driver);
+    }
+
 
     [HttpPost("location")]
     public async Task<IActionResult> UpdateLocation(
