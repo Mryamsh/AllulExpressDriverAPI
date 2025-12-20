@@ -16,15 +16,22 @@ public class DriverLocationController : ControllerBase
     public async Task<IActionResult> UpdateLocation(
         [FromBody] DriverLocationDto dto)
     {
-        var driver = await _db.Drivers.FindAsync(dto.Id);
-        if (driver == null)
-            return NotFound();
+        try
+        {
+            var driver = await _db.Drivers.FindAsync(dto.Id);
+            if (driver == null)
+                return NotFound("Driver not found");
 
-        driver.Latitude = dto.Latitude;
-        driver.Longitude = dto.Longitude;
-        driver.LastUpdated = DateTime.UtcNow;
+            driver.Latitude = dto.Latitude;
+            driver.Longitude = dto.Longitude;
+            driver.LastUpdated = DateTime.UtcNow;
 
-        await _db.SaveChangesAsync();
-        return Ok();
+            await _db.SaveChangesAsync();
+            return Ok("Location updated");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 }

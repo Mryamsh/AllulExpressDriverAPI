@@ -34,7 +34,7 @@ namespace AllulExpressDriverApi.Models
         public float Latitude { get; set; }
         public float Longitude { get; set; }
 
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
 
 
