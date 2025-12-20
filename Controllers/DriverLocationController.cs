@@ -1,9 +1,11 @@
 using AllulExpressDriverApi.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/driver")]
+[Authorize]
 public class DriverLocationController : ControllerBase
 {
     private readonly AppDbContext _db;
