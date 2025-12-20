@@ -31,8 +31,8 @@ namespace AllulExpressDriverApi.Models
         public string? Language { get; set; }
         public string? OtpCode { get; set; }
         public DateTime? OtpExpiry { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public float? Latitude { get; set; }
+        public float? Longitude { get; set; }
 
         public DateTime? LastUpdated { get; set; }
 
