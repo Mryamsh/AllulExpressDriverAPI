@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AllulExpressDriverAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25d32ab31cec22596b3f8062b11b3a32a6d5fdb1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e880b312d30364e59dd46064dd7ae057d633627")]
 [assembly: System.Reflection.AssemblyProductAttribute("AllulExpressDriverAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AllulExpressDriverAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
