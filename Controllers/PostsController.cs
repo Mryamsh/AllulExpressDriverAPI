@@ -18,17 +18,53 @@ public class PostsController : ControllerBase
     }
     [Authorize]
     [HttpGet("{driverId}/posts")]
-    public async Task<IActionResult> GetPostsByDriver(int driverId)
+    public async Task<IActionResult> GetPostsByDriver(
+        int driverId,
+        int pageNumber = 1,
+        int pageSize = 10)
     {
-        var posts = await _db.Posts
-            .Where(p => p.DriverID == driverId)
+        if (pageNumber <= 0 || pageSize <= 0)
+            return BadRequest("Invalid pagination values.");
+
+        var query = _db.Posts
+            .AsNoTracking()
+            .Where(p => p.DriverID == driverId);
+
+        var totalCount = await query.CountAsync();
+
+        if (totalCount == 0)
+            return NotFound(new { message = "No posts found for this driver." });
+
+        var posts = await query
+            .OrderByDescending(p => p.Id)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .Select(p => new
+            {
+                Id = p.Id,
+                p.Businessname,
+                p.City,
+                p.Phonenum2,
+                p.Postnum,
+                p.Numberofpieces,
+                p.Price,
+                p.Shipmentfee
+            })
             .ToListAsync();
 
-        if (posts.Count == 0)
-            return NotFound(new { message = "No posts found for this Driver" });
-
-        return Ok(posts);
+        return Ok(new
+        {
+            data = posts,
+            pagination = new
+            {
+                totalItems = totalCount,
+                pageNumber,
+                pageSize,
+                totalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+            }
+        });
     }
+
 
     // [HttpGet("by-qr")]
     // [Authorize] // Ensure client is authenticated
