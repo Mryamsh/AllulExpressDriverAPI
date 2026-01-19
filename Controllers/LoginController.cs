@@ -72,7 +72,7 @@ public class LoginController : ControllerBase
     [HttpGet("validate-token")]
     public async Task<IActionResult> ValidateToken([FromQuery] string token)
     {
-        var tokenRecord = await _db.ValidTokenDrivers
+        var tokenRecord = await _db.ValidTokenDrivers// or User
             .FirstOrDefaultAsync(t => t.Token == token);
 
         if (tokenRecord == null)
@@ -80,6 +80,14 @@ public class LoginController : ControllerBase
 
         if (tokenRecord.ExpiresAt < DateTime.UtcNow)
             return Unauthorized(new { valid = false, reason = "Token expired" });
+
+
+        var driver = await _db.Drivers
+            .FirstOrDefaultAsync(d => d.Id == tokenRecord.driverid);
+
+        if (driver == null || !driver.Enabled)
+            return Unauthorized(new { valid = false, reason = "User is disabled" });
+
 
         return Ok(new { valid = true });
     }
