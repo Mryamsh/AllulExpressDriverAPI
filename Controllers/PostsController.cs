@@ -48,7 +48,8 @@ public class PostsController : ControllerBase
                 p.Postnum,
                 p.Numberofpieces,
                 p.Price,
-                p.Shipmentfee
+                p.Shipmentfee,
+                p.Poststatus
             })
             .ToListAsync();
 
