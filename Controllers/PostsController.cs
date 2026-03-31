@@ -44,6 +44,7 @@ public class PostsController : ControllerBase
                 Id = p.Id,
                 p.Businessname,
                 p.City,
+                p.Phonenum1,
                 p.Phonenum2,
                 p.Postnum,
                 p.Numberofpieces,
