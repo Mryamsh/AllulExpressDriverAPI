@@ -45,3 +45,12 @@ namespace AllulExpressDriverApi.Models
         public string Status { get; set; } // e.g., "Delivered", "Returned", "Pending"
     }
 }
+
+public class PostStatusLog
+{
+    public int Id { get; set; }
+    public int PostId { get; set; }
+    public string OldStatus { get; set; }
+    public string NewStatus { get; set; }
+    public DateTime ChangedAt { get; set; }
+}

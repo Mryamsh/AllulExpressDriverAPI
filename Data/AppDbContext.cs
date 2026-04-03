@@ -6,6 +6,7 @@ namespace AllulExpressDriverApi.Data
     public class AppDbContext : DbContext
     {
 
+        public int? CurrentUserId { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -20,7 +21,7 @@ namespace AllulExpressDriverApi.Data
         public DbSet<ValidTokenDrivers> ValidTokenDrivers { get; set; }
         // public DbSet<PasswordResetRequest> PasswordResetRequests { get; set; }
 
-
+        public DbSet<DbLog> DbLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

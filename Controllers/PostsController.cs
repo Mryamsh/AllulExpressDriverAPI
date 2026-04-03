@@ -134,8 +134,6 @@ public class PostsController : ControllerBase
             post.Poststatus,
             post.Note,
             post.Savedate,
-
-
             Client = post.Client != null ? new
             {
                 post.Client.Id,
@@ -144,11 +142,7 @@ public class PostsController : ControllerBase
                 post.Client.Phonenum2,
                 post.Client.Email,
                 post.Client.Note,
-
-
             } : null
-
-
         };
 
         return Ok(result);

@@ -38,6 +38,17 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero
     };
 });
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
+{
+    options.UseMySql(
+        connectionString,
+        new MySqlServerVersion(new Version(8, 0, 34))
+    );
+
+    options.AddInterceptors(
+        sp.GetRequiredService<MySqlDbLoggingInterceptor>()
+    );
+});
 builder.Services.AddSwaggerGen(c =>
 {
     // Add JWT Authorization support
