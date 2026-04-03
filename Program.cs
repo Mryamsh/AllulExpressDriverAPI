@@ -16,8 +16,24 @@ var keyString = jwtSettings["Key"];
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
 // Add DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+// builder.Services.AddDbContext<AppDbContext>(options =>
+//     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddScoped<MySqlDbLoggingInterceptor>();
+
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
+{
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString)
+    );
+
+    options.AddInterceptors(
+        sp.GetRequiredService<MySqlDbLoggingInterceptor>()
+    );
+});
+
+
 builder.Services.AddScoped<TokenService>();
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(options =>
@@ -38,17 +54,7 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero
     };
 });
-builder.Services.AddDbContext<AppDbContext>((sp, options) =>
-{
-    options.UseMySql(
-        connectionString,
-        new MySqlServerVersion(new Version(8, 0, 34))
-    );
 
-    options.AddInterceptors(
-        sp.GetRequiredService<MySqlDbLoggingInterceptor>()
-    );
-});
 builder.Services.AddSwaggerGen(c =>
 {
     // Add JWT Authorization support
